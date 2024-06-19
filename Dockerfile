@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM --platform=$BUILDPLATFORM node:current-alpine
 ENV NODE_ENV production
 WORKDIR /app
 COPY ./ /app

@@ -1,15 +1,15 @@
 {
   "name": "bull-board-docker",
-  "version": "4.10.2",
+  "version": "5.20.2",
   "description": "Docker image for bull-board package",
   "main": "index.js",
   "scripts": {
     "serve": "node index.js"
   },
   "dependencies": {
-    "bull": "4.10.2",
-    "@bull-board/fastify": "4.10.2",
-    "fastify": "4.11.0",
-    "ioredis": "5.2.5"
+    "bull": "4.13.0",
+    "@bull-board/fastify": "5.20.2",
+    "fastify": "4.28.0",
+    "ioredis": "5.4.1"
   }
 }
