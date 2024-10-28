@@ -37,11 +37,11 @@ const run = async () => {
 
   serverAdapter.setBasePath(DASHBOARD_ROOT_PATH);
   app.register(serverAdapter.registerPlugin(), { prefix: DASHBOARD_ROOT_PATH });
-  await app.listen(3000, '0.0.0.0');
+  await app.listen({ host: '0.0.0.0', port: 3000 });
   console.log(`Running on http://0.0.0.0:3000${DASHBOARD_ROOT_PATH}...`);
 };
 
 run().catch((e) => {
-  console.error(e);
+  console.error(e);``
   process.exit(1);
 });
