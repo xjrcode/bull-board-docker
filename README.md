@@ -18,4 +18,5 @@ services:
       REDIS_PORT: 6379 # default 6379
       REDIS_DB_NAME: 0 # default 0
       DASHBOARD_ROOT_PATH: /boo/bar/bullboard # default /
+      DELIMIER: . # default . Allows to group and nest queues by name
 ```

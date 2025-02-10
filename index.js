@@ -11,6 +11,7 @@ const run = async () => {
     REDIS_HOST = 'redis',
     REDIS_PORT = 6379,
     REDIS_DB_NAME = '0',
+    DELIMIER = '.',
   } = process.env;
 
   const redis = new Redis({
@@ -23,7 +24,7 @@ const run = async () => {
   const keys = await redis.keys(`bull:*`);
   const queueNamesSet = new Set(keys.map(key => key.replace(/^.+?:(.+?):.+?$/, '$1')));
   const queues = Array.from(queueNamesSet).map((item) => new BullAdapter(new Queue(item, 
-    { redis: { port: REDIS_PORT, host: REDIS_HOST, db: REDIS_DB_NAME} })));
+    { redis: { port: REDIS_PORT, host: REDIS_HOST, db: REDIS_DB_NAME} }), {delimiter: DELIMIER}));
 
   // create app
   const app = fastify({ logger: true });

@@ -1,14 +1,16 @@
-FROM --platform=$BUILDPLATFORM node:current-alpine AS builder
-ENV NODE_ENV production
+FROM node:current-alpine
+
+ARG TARGETPLATFORM
+ENV NODE_ENV=production
+
 WORKDIR /app
 COPY ./ /app
-RUN npm install --production
 
-FROM --platform=$BUILDPLATFORM node:current-alpine
-ENV NODE_ENV production
-WORKDIR /app
-COPY --from=builder /app /app
-RUN npm ci
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    npm install --arch=arm64 --platform=linux --production; \
+  else \
+    npm install --arch=x64 --platform=linux --production; \
+  fi
+
 EXPOSE 3000
-
 CMD ["node", "index.js"]
