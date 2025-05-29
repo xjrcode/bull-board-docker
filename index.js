@@ -3,7 +3,7 @@ const { FastifyAdapter } = require('@bull-board/fastify');
 const { BullAdapter } = require('@bull-board/api/bullAdapter')
 const Queue = require('bull');
 const fastify = require('fastify');
-const Redis = require('ioredis');
+const { createClient } = require('@redis/client');
 
 const run = async () => {
   const {
@@ -14,15 +14,20 @@ const run = async () => {
     DELIMIER = '.',
   } = process.env;
 
-  const redis = new Redis({
-    port: REDIS_PORT,
-    host: REDIS_HOST,
-    db: REDIS_DB_NAME,
-  });
+  const redis = await createClient({
+    url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+    database: REDIS_DB_NAME,
+  }).connect();
+
+  console.log(`Connecting to Redis at ${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB_NAME}...`);
 
   // get queues
   const keys = await redis.keys(`bull:*`);
+  
   const queueNamesSet = new Set(keys.map(key => key.replace(/^.+?:(.+?):.+?$/, '$1')));
+
+  console.table(Array.from(queueNamesSet));
+
   const queues = Array.from(queueNamesSet).map((item) => new BullAdapter(new Queue(item, 
     { redis: { port: REDIS_PORT, host: REDIS_HOST, db: REDIS_DB_NAME} }), {delimiter: DELIMIER}));
 

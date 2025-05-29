@@ -1,16 +1,16 @@
 {
   "name": "bull-board-docker",
-  "version": "6.7.7",
+  "version": "6.9.6",
   "description": "Docker image for bull-board package",
   "main": "index.js",
   "scripts": {
     "serve": "node index.js"
   },
   "dependencies": {
-    "bull": "^4.16.0",
-    "@bull-board/fastify": "6.7.7",
-    "@bull-board/api": "6.7.7",
-    "fastify": "^5.0.0",
-    "ioredis": "^5.5.0"
+    "bull": "^4.16.5",
+    "@bull-board/fastify": "6.9.6",
+    "@bull-board/api": "6.9.6",
+    "fastify": "^5.3.3",
+    "@redis/client": "^5.1.1"
   }
 }
