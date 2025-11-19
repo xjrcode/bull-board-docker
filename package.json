@@ -1,6 +1,6 @@
 {
   "name": "bull-board-docker",
-  "version": "6.9.6",
+  "version": "6.14.2",
   "description": "Docker image for bull-board package",
   "main": "index.js",
   "scripts": {
