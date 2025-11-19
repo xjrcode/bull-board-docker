@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "bull": "^4.16.5",
-    "@bull-board/fastify": "6.9.6",
-    "@bull-board/api": "6.9.6",
+    "@bull-board/fastify": "6.14.2",
+    "@bull-board/api": "6.14.2",
     "fastify": "^5.3.3",
-    "@redis/client": "^5.1.1"
+    "@redis/client": "^5.9.0"
   }
 }
