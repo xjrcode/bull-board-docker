@@ -18,12 +18,14 @@ const run = async () => {
     PORT = 3000,
   } = process.env;
 
+  const useTls = ['true', '1', 'yes'].includes(String(REDIS_TLS).toLowerCase());
+
   const redis = await createClient({
-    url: `redis${REDIS_TLS ? 's' : ''}://${REDIS_USERNAME}${REDIS_PASSWORD ? ':'+REDIS_PASSWORD : ''}${REDIS_USERNAME || REDIS_PASSWORD ? '@': ''}${REDIS_HOST}:${REDIS_PORT}`,
+    url: `redis${useTls ? 's' : ''}://${REDIS_USERNAME}${REDIS_PASSWORD ? ':'+REDIS_PASSWORD : ''}${REDIS_USERNAME || REDIS_PASSWORD ? '@': ''}${REDIS_HOST}:${REDIS_PORT}`,
     database: REDIS_DB_NAME,
   }).connect();
 
-  console.log(`Connecting to Redis at redis${REDIS_TLS ? 's' : ''}://${REDIS_USERNAME}${REDIS_PASSWORD ? ':encrypted_password' : ''}${REDIS_USERNAME || REDIS_PASSWORD ? '@': ''}${REDIS_HOST}:${REDIS_PORT}`);
+  console.log(`Connecting to Redis at redis${useTls ? 's' : ''}://${REDIS_USERNAME}${REDIS_PASSWORD ? ':encrypted_password' : ''}${REDIS_USERNAME || REDIS_PASSWORD ? '@': ''}${REDIS_HOST}:${REDIS_PORT}`);
 
   // get queues
   const keys = await redis.keys(`bull:*`);
@@ -33,7 +35,7 @@ const run = async () => {
   console.table(Array.from(queueNamesSet));
 
   const queues = Array.from(queueNamesSet).map((item) => new BullAdapter(new Queue(item, 
-    { redis: { port: Number(REDIS_PORT), host: REDIS_HOST, username: REDIS_USERNAME || null, password: REDIS_PASSWORD || null, tls: REDIS_TLS ? {} : undefined, db: Number(REDIS_DB_NAME)} }), {delimiter: DELIMITER}));
+    { redis: { port: Number(REDIS_PORT), host: REDIS_HOST, username: REDIS_USERNAME || null, password: REDIS_PASSWORD || null, tls: useTls ? {} : undefined, db: Number(REDIS_DB_NAME)} }), {delimiter: DELIMITER}));
 
   // create app
   const app = fastify({ logger: true });
